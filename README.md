@@ -58,3 +58,22 @@ This is the full journey, in order: from creating the virtual machine on Proxmox
       
       Once the VM spins up, you can click on **122 (SYSLOG)** in your left-hand menu, open the **Console**, and go through the standard OS installation wizard. Let me know when you get to the login prompt!
       At the end of Part 1: a blank Ubuntu server, ready to configure, but nothing set up yet to receive or store logs.
+
+# Install the Ubuntu Server operating system
+
+- In the left-hand panel of your Proxmox dashboard, click on your newly created VM.
+- If it hasn't started yet, click the Start button in the top right corner.
+- Click on the Console tab right below the Proxmox summary grid. You will see the Ubuntu installation screen boot up.
+- Language & Keyboard: Select your preferred layout (usually English).
+  <img width="1912" height="1102" alt="image" src="https://github.com/user-attachments/assets/77d94291-3d78-4dc1-8a3a-9a0ac6ee2a40" />
+
+- Type of Install: Choose Ubuntu Server (the default minimize option isn't necessary, the standard version is fine).
+- Network Connections: * By default, it will grab a random IP via DHCP.
+
+## Crucial Step: If your network team has already given you the static IP, select your network interface (eth0 or ens18), press Enter, choose Edit IPv4, change it from DHCP to Manual, and enter your static IP details.
+
+- If you don't have the static IP yet, just leave it on DHCP for now. We can easily change it to static in the command line later.
+- Storage Configuration: Leave it on Use an entire disk (the 32GB virtual disk you created). Uncheck the box for "Set up this disk as an LVM logical volume" to keep things simple, then select Done.
+- Profile Setup: Enter your name, choose a server name (e.g., syslog-server), and create a secure username and password. Remember these credentials!
+- SSH Setup: Check the box to Install OpenSSH server. This is important so you can SSH into this box from your own laptop later instead of using the Proxmox browser console.
+- Featured Server Snaps: Don't select anything here. Just hit Done.
