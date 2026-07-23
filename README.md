@@ -73,10 +73,22 @@ This is the full journey, in order: from creating the virtual machine on Proxmox
 ## Crucial Step: If you have a static IP, select your network interface (eth0 or ens18), press Enter, choose Edit IPv4, change it from DHCP to Manual, and enter your static IP details.
 <img width="1291" height="806" alt="image" src="https://github.com/user-attachments/assets/0f687de5-0d00-44a5-901e-1bcdd5c9b61c" />
 
-- If you don't have the static IP yet, just leave it on DHCP for now. You can easily change it to static in the command line later.
+- If you don't have the static IP yet, just leave it on DHCP for now. You can easily change it to static in the command line later using:
+
+                       Log into your Ubuntu server.
+                       Open the network configuration file using this command:
+                              sudo nano /etc/netplan/50-cloud-init.yaml
+                       Update the addresses (your IP/CIDR), routes (your gateway), and nameservers fields with the exact info they gave you.
+                       Save the file and apply the changes instantly with:
+                              sudo netplan apply
+  
 - Storage Configuration: Leave it on Use an entire disk (the 32GB virtual disk you created). Uncheck the box for "Set up this disk as an LVM logical volume" to keep things simple, then select Done.
 - Profile Setup: Enter your name, choose a server name (e.g., syslog-server), and create a secure username and password. Remember these credentials!
-- SSH Setup: Check the box to Install OpenSSH server. This is important so you can SSH into this box from your own laptop later instead of using the Proxmox browser console.
+  <img width="1275" height="698" alt="image" src="https://github.com/user-attachments/assets/9b7e2e59-5bdb-408a-8804-490315386350" />
+
+- SSH Setup: Check the box to Install OpenSSH server. This is important so you can SSH into this box from your own laptop later instead of using the Proxmox browser console.(Leave [X] Allow password authentication over      SSH checked as it is)
+  <img width="1275" height="785" alt="image" src="https://github.com/user-attachments/assets/ad6d8a3c-9e56-48b9-84d1-0dc14cd2d198" />
+
 - Featured Server Snaps: Don't select anything here. Just hit Done.
 
   ### If you have an IP
@@ -95,8 +107,15 @@ This is the full journey, in order: from creating the virtual machine on Proxmox
 - Address: [Your_Allocated_Static_IP]
 - Gateway: Input your network gateway IP
 - Name servers: 1.1.1.1, 8.8.8.8 (You can separate multiple DNS servers with a comma).
+- Leave the Proxy address field completely blank (In most corporate environments, servers don't need a proxy to access the internet unless the network team explicitly forces all traffic through an explicit proxy appliance)
 - Save and press Enter.
 
 ### The main network configuration screen will reappear, and you should now see your static IP listed next to ens18.
 
+- For the storage (Disable set up this disk as an LVM group to keeps the partition layout standard to make it easier to expand the disk layout if OLT logs grow fast)
+<img width="1189" height="722" alt="image" src="https://github.com/user-attachments/assets/a5b113c9-5a6f-4b5d-a9a1-87cfcad48975" />
+<img width="1251" height="786" alt="image" src="https://github.com/user-attachments/assets/8c6ba355-d7ea-46f9-86db-4924edb1d984" />
+
 Scroll all the way down to the bottom of the screen, select the newly appeared [ Done ] button, and press Enter to move to the proxy/archive mirror screens!
+
+
