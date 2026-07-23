@@ -32,7 +32,7 @@ This is the full journey, in order: from creating the virtual machine on Proxmox
       3. Disks Tab
       
       - Storage: Select the storage where your other VMs live (likely `local-lvm` or whatever network storage you use).
-      - Disk Size (GiB): Set this to **30 or 40 GiB**. Since OLT logs are plain text, this gives you plenty of runway before you ever have to worry about log rotation filling it up.
+      - Disk Size (GiB): Set this to 30 or 40 GiB. Since OLT logs are plain text, this gives you plenty of runway before you ever have to worry about log rotation filling it up.
       - Click Next.
       
       4. CPU Tab
@@ -71,9 +71,12 @@ This is the full journey, in order: from creating the virtual machine on Proxmox
 - Network Connections: * By default, it will grab a random IP via DHCP.
 
 ## Crucial Step: If your network team has already given you the static IP, select your network interface (eth0 or ens18), press Enter, choose Edit IPv4, change it from DHCP to Manual, and enter your static IP details.
+<img width="1291" height="806" alt="image" src="https://github.com/user-attachments/assets/0f687de5-0d00-44a5-901e-1bcdd5c9b61c" />
 
-- If you don't have the static IP yet, just leave it on DHCP for now. We can easily change it to static in the command line later.
+- If you don't have the static IP yet, just leave it on DHCP for now. You can easily change it to static in the command line later.
 - Storage Configuration: Leave it on Use an entire disk (the 32GB virtual disk you created). Uncheck the box for "Set up this disk as an LVM logical volume" to keep things simple, then select Done.
 - Profile Setup: Enter your name, choose a server name (e.g., syslog-server), and create a secure username and password. Remember these credentials!
 - SSH Setup: Check the box to Install OpenSSH server. This is important so you can SSH into this box from your own laptop later instead of using the Proxmox browser console.
 - Featured Server Snaps: Don't select anything here. Just hit Done.
+
+  ### If you have an IP
