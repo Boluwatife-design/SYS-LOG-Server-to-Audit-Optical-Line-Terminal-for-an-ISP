@@ -56,21 +56,21 @@ This is the full journey, in order: from creating the virtual machine on Proxmox
       - Review the summary.
       - Check the box that says "Start after created" if you want it to boot right up, then click Finish.
       
-      Once the VM spins up, you can click on **122 (SYSLOG)** in your left-hand menu, open the **Console**, and go through the standard OS installation wizard. Let me know when you get to the login prompt!
-      At the end of Part 1: a blank Ubuntu server, ready to configure, but nothing set up yet to receive or store logs.
+      Once the VM spins up, you can click on 122 (SYSLOG) in your left-hand menu, open the Console, and go through the standard OS installation wizard.
+      At the end of this: a blank Ubuntu server, ready to configure, but nothing set up yet to receive or store logs.
 
 # Install the Ubuntu Server operating system
 
 - In the left-hand panel of your Proxmox dashboard, click on your newly created VM.
 - If it hasn't started yet, click the Start button in the top right corner.
-- Click on the Console tab right below the Proxmox summary grid. You will see the Ubuntu installation screen boot up.
+- Click on the Console tab right below the Proxmox summary grid, the Ubuntu installation screen boot up.
 - Language & Keyboard: Select your preferred layout (usually English).
   <img width="1912" height="1102" alt="image" src="https://github.com/user-attachments/assets/77d94291-3d78-4dc1-8a3a-9a0ac6ee2a40" />
 
-- Type of Install: Choose Ubuntu Server (the default minimize option isn't necessary, the standard version is fine).
-- Network Connections: * By default, it will grab a random IP via DHCP.
+- Type of Install: Choose Ubuntu Server
+- Network Connections: By default, it will grab a random IP via DHCP.
 
-## Crucial Step: If your network team has already given you the static IP, select your network interface (eth0 or ens18), press Enter, choose Edit IPv4, change it from DHCP to Manual, and enter your static IP details.
+## Crucial Step: If you have a static IP, select your network interface (eth0 or ens18), press Enter, choose Edit IPv4, change it from DHCP to Manual, and enter your static IP details.
 <img width="1291" height="806" alt="image" src="https://github.com/user-attachments/assets/0f687de5-0d00-44a5-901e-1bcdd5c9b61c" />
 
 - If you don't have the static IP yet, just leave it on DHCP for now. You can easily change it to static in the command line later.
@@ -80,3 +80,23 @@ This is the full journey, in order: from creating the virtual machine on Proxmox
 - Featured Server Snaps: Don't select anything here. Just hit Done.
 
   ### If you have an IP
+
+- Open the Network Menu
+- Ensure [ ens18 eth - ▶ ] is highlighted in white.
+- Press Enter. A small dropdown menu will appear.
+- Use the down arrow key to select Edit IPv4 and press Enter.
+- Switch to Manual Mode
+- On the "IPv4 Method" line, press Enter and change it from Automatic (DHCP) to Manual.
+- Press Enter. You will see a box with empty lines for Subnet, Address, Gateway, and Name servers.
+- Enter your Details (Type in your network settings using the layout below)
+
+(Note: In the Subnet line, Ubuntu requires CIDR notation—meaning the network range followed by /24 or /22, but adjust if your network team gave you a different subnet mask like 255.255.255.0):
+- Subnet: 10.80.50.0/24 (Change the 10.80.50 part to match the first three octets of your specific IP).
+- Address: [Your_Allocated_Static_IP]
+- Gateway: Input your network gateway IP
+- Name servers: 1.1.1.1, 8.8.8.8 (You can separate multiple DNS servers with a comma).
+- Save and press Enter.
+
+### The main network configuration screen will reappear, and you should now see your static IP listed next to ens18.
+
+Scroll all the way down to the bottom of the screen, select the newly appeared [ Done ] button, and press Enter to move to the proxy/archive mirror screens!
