@@ -83,14 +83,20 @@ This is the full journey, in order: from creating the virtual machine on Proxmox
                               sudo netplan apply
   
 - Storage Configuration: Leave it on Use an entire disk (the 32GB virtual disk you created). Uncheck the box for "Set up this disk as an LVM logical volume" to keep things simple, then select Done.
+  
 - Profile Setup: Enter your name, choose a server name (e.g., syslog-server), and create a secure username and password. Remember these credentials!
   <img width="1275" height="698" alt="image" src="https://github.com/user-attachments/assets/9b7e2e59-5bdb-408a-8804-490315386350" />
 
 - SSH Setup: Check the box to Install OpenSSH server. This is important so you can SSH into this box from your own laptop later instead of using the Proxmox browser console.(Leave [X] Allow password authentication over      SSH checked as it is)
   <img width="1275" height="785" alt="image" src="https://github.com/user-attachments/assets/ad6d8a3c-9e56-48b9-84d1-0dc14cd2d198" />
 
-- Featured Server Snaps: Don't select anything here. Just hit Done.
+- Featured Server Snaps: Don't select anything here. Just hit Done and reboot the virtual machine.
+  <img width="1280" height="808" alt="image" src="https://github.com/user-attachments/assets/0e91f406-2918-4b0d-b0bd-07488bfaa49f" />
 
+- During the reboot process, the screen might freeze or show a message like "Please remove the installation medium, then press ENTER" Just Click Enter.
+  <img width="1295" height="802" alt="image" src="https://github.com/user-attachments/assets/b724630f-ae2f-4d56-8b5a-9b0700822214" />
+
+  
   ### If you have an IP
 
 - Open the Network Menu
@@ -116,6 +122,5 @@ This is the full journey, in order: from creating the virtual machine on Proxmox
 <img width="1189" height="722" alt="image" src="https://github.com/user-attachments/assets/a5b113c9-5a6f-4b5d-a9a1-87cfcad48975" />
 <img width="1251" height="786" alt="image" src="https://github.com/user-attachments/assets/8c6ba355-d7ea-46f9-86db-4924edb1d984" />
 
-Scroll all the way down to the bottom of the screen, select the newly appeared [ Done ] button, and press Enter to move to the proxy/archive mirror screens!
 
 
