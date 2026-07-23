@@ -46,4 +46,23 @@
 - Press Ctrl + O then Enter to save your work.
 - Press Ctrl + X to exit the nano editor.
 - Restart the rsyslog service to apply your new configurations:
-  
+
+      sudo systemctl restart rsyslog
+
+# Step 5: Verify the Syslog Ports are Listening
+- Let's make sure the Ubuntu firewall layer and the rsyslog daemon are actively keeping port 514 open. Run this command:
+
+      ss -tulpn | grep 514
+
+<img width="380" height="110" alt="image" src="https://github.com/user-attachments/assets/35954124-a084-4fda-995e-fcb19686e1b8" />
+
+- Ensure log directory ownership (make sure it has the authority to write files to the custom path that was built)
+
+      sudo chown -R syslog:adm /var/log
+- Tell your terminal to monitor the remote directory in real-time
+
+      watch ls -R /var/log/remote/
+- Open a second Command Prompt tab on your laptop, SSH back in, and trigger a test log using the logger utility pointing to your server's own network interface:
+
+      logger -n 'your_sys_log_IP' -T -p local0.notice "Test Log From Oltsyslog Wire"
+- Look back at your first terminal window running the watch command. If the template rules are working properly, you should see a brand-new folder, containing a clean text log file
