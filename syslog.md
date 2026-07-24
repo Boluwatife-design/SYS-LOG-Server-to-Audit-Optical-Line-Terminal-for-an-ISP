@@ -33,15 +33,20 @@
       input(type="imtcp" port="514")
   Note: This means it Starts listening on port 514 for anyone trying to send a report, using either of the two common delivery methods (UDP and TCP)
 
-# Step 3: Create a Custom Template for Foreign Logs
-- If you don't set up a template, all incoming logs from firewalls, switches, and other servers will completely flood your VM's local /var/log/syslog file, making it a nightmare to read.
-- Tell rsyslog to automatically parse incoming messages and sort them cleanly into separate folders named after the device's IP or hostname.
+# Step 3: Route incoming logs into per-device folders, filtered correctly
+- So Whenever a message arrives, it looks at the real network address it actually came from (`%FROMHOST-IP%` — not a self-reported hostname field, which can be blank or spoofed), create a folder named after that
+address/device if needed, and write the message into a file called `traffic.log` inside it
+- But if the message came from this VM itself (`127.0.0.1`, the standard address every machine uses to refer to itself), skip it — that's local noise, and count as not something to audit."
 - Scroll all the way down to the very bottom of the file, make a new line, and paste this rule:
   
-      # Custom template to split remote logs by hostname/IP
-      $template RemoteLogs,"/var/log/remote/%HOSTNAME%/%PROGRAMNAME%.log"
-      *.* ?RemoteLogs
+      # Enhanced template to split remote logs by hostname/IP
+      $template RemoteLogs,"/var/log/remote/%FROMHOST-IP%/traffic.log"
+      if $fromhost-ip != '127.0.0.1' then ?RemoteLogs
       & stop
+- So the whole Script looks like this:
+
+
+
 
 # Step 4: Save, Exit, and Restart the Daemon
 - Press Ctrl + O then Enter to save your work.
