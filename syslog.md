@@ -31,6 +31,7 @@
       # provides TCP syslog reception
       module(load="imtcp")
       input(type="imtcp" port="514")
+  Note: This means it Starts listening on port 514 for anyone trying to send a report, using either of the two common delivery methods (UDP and TCP)
 
 # Step 3: Create a Custom Template for Foreign Logs
 - If you don't set up a template, all incoming logs from firewalls, switches, and other servers will completely flood your VM's local /var/log/syslog file, making it a nightmare to read.
