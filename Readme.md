@@ -1,3 +1,7 @@
+# SYS-LOG-Server-to-Audit-Optical-Line-Terminal-for-an-ISP
+
+## How I Built OLT Log Auditing — Step by Step
+This is the full journey, in order: from creating the virtual machine on Proxmox, to configuring it to receive logs from the OLTs, to viewing those logs as a clean webpage anyone can open in a browser.
 
 
 # OLT Log Auditing — Explained Simply
