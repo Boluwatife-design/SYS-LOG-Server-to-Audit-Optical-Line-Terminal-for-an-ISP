@@ -119,6 +119,15 @@ SCRIPT_END
 
       sudo chmod +x /usr/local/bin/publish_olt_log.sh
 
+# Step 5: Automate refresh every 5 minutes
+```
+sudo crontab -e
+```
+Added:
+```
+*/5 * * * * /usr/local/bin/publish_olt_log.sh
+```
+From this point, the page updates itself automatically — no manual steps.
 
 
 # The result
