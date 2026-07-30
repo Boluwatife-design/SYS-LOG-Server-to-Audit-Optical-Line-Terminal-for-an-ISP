@@ -45,7 +45,66 @@ address/device if needed, and write the message into a file called `traffic.log`
       & stop
 - So the whole Script looks like this:
 
-
+        
+            # /etc/rsyslog.conf configuration file for rsyslog
+            #
+            # For more information install rsyslog-doc and see
+            # /usr/share/doc/rsyslog-doc/html/configuration/index.html
+            #
+            # Default logging rules can be found in /etc/rsyslog.d/50-default.conf
+            
+            
+            #################
+            #### MODULES ####
+            #################
+            
+            module(load="imuxsock") # provides support for local system logging
+            #module(load="immark")  # provides --MARK-- message capability
+            
+            # provides UDP syslog reception
+            module(load="imudp")
+            input(type="imudp" port="514")
+            
+            # provides TCP syslog reception
+            module(load="imtcp")
+            input(type="imtcp" port="514")
+            
+            # provides kernel logging support and enable non-kernel klog messages
+            module(load="imklog" permitnonkernelfacility="on")
+            
+            ###########################
+            #### GLOBAL DIRECTIVES ####
+            ###########################
+            
+            # Filter duplicated messages
+            $RepeatedMsgReduction on
+            
+            #
+            # Set the default permissions for all log files.
+            #
+            $FileOwner syslog
+            $FileGroup adm
+            $FileCreateMode 0640
+            $DirCreateMode 0755
+            $Umask 0022
+            $PrivDropToUser syslog
+            $PrivDropToGroup syslog
+            
+            #
+            # Where to place spool and state files
+            #
+            #
+            $WorkDirectory /var/spool/rsyslog
+            
+            #
+            # Include all config files in /etc/rsyslog.d/
+            #
+            $IncludeConfig /etc/rsyslog.d/*.conf
+            
+            # Enhanced template to split remote logs by hostname/IP
+            $template RemoteLogs,"/var/log/remote/%FROMHOST-IP%/traffic.log"
+            if $fromhost-ip != '127.0.0.1' then ?RemoteLogs
+            & stop
 
 
 # Step 4: Save, Exit, and Restart the Daemon
@@ -72,3 +131,43 @@ address/device if needed, and write the message into a file called `traffic.log`
 
       logger -n 'your_sys_log_IP' -T -p local0.notice "Test Log From Oltsyslog Wire"
 - Look back at your first terminal window running the watch command. If the template rules are working properly, you should see a brand-new folder, containing a clean text log file
+
+# Step 6: Confirm logs were actually arriving
+```
+sudo tcpdump -i any -n port 514 -c 20
+```
+This showed live packets arriving from OLT IP addresses, proving the OLTs were
+already sending and the VM was now receiving.
+```
+ls -lt /var/log/remote/
+```
+Folders appeared automatically per device — `10.80.50.6`...................................
+
+# Step 7: Confirm retention was actually working
+```
+cat /etc/logrotate.d/remote-logs
+```
+```
+/var/log/remote/*/*.log {
+    daily
+    rotate 30
+    missingok
+    notifempty
+    compress
+    delaycompress
+    sharedscripts
+    postrotate
+        /usr/lib/rsyslog/rsyslog-rotate
+    endscript
+}
+```
+In plain terms: every day, the current log file is renamed and compressed, a fresh one starts, and anything older than 30 rotations is deleted — a rolling 30-day history, disk usage kept in check.
+Confirmed the daily scheduler was really running, not just configured:
+```
+systemctl status logrotate.timer
+systemctl list-timers | grep logrotate
+```
+
+
+
+
