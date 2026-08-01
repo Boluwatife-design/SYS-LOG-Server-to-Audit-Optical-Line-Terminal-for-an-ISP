@@ -15,7 +15,7 @@ coded table of everything that's happened.
 - How to use it
 Open a browser and go to:
 ```
-http://172.16.77.30:8080/olt_log.html
+http://-ip-:8080/olt_log.html
 ```
 You'll see a table with:
 - Column	What it means
