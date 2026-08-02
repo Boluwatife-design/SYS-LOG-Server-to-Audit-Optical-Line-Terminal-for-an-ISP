@@ -137,14 +137,14 @@ address/device if needed, and write the message into a file called `traffic.log`
 sudo tcpdump -i any -n port 514 -c 20
 ```
 Result: confirmed real UDP packets arriving from an OLT IP address
-(`10.80.50.6`), proving that device was already sending and the VM was
+(`ip`), proving that device was already sending and the VM was
 receiving.
 ```
 ls -lt /var/log/remote/
 ```
-Important, accurate detail: at this point, only one folder existed — `10.80.50.6`. Folders do not all appear automatically just because rsyslog is configured and listening. A device's folder only shows up once that specific device is actually:
+Important, accurate detail: at this point, only one folder existed — `10.x.x.x`. Folders do not all appear automatically just because rsyslog is configured and listening. A device's folder only shows up once that specific device is actually:
 - Configured (on its own end) to send its syslog output to this VM's IP, and Able to actually reach this VM over the network (routing/firewall rules in place).
-- At this stage, only `10.80.50.6` met both conditions. The other OLT sites had not been pointed at this collector yet on their own end. Additional folders appeared later, after the network team made changes on their side — most likely one or both of:
+- At this stage, only `10.x.x.x` met both conditions. The other OLT sites had not been pointed at this collector yet on their own end. Additional folders appeared later, after the network team made changes on their side — most likely one or both of:
 - Configuring each additional OLT's syslog/remote-logging setting to point at vm IP
 - Opening routing/firewall rules so traffic from those additional OLTs' subnets could actually reach the VM
 - running `ls -lt /var/log/remote/` again some time later showed the new folders had appeared on their own, with no further changes made on this VM.
