@@ -2,8 +2,8 @@
 - Cause: an earlier/incorrect config created a brand-new file for every single log message instead of appending to one file per device — tens of thousands of tiny files piled up.
 - Fix: corrected the template to key only on the device and archived the old debris:
 ```
-mkdir -p /var/log/remote/10.80.50.6/old_debris
-find /var/log/remote/10.80.50.6/ -maxdepth 1 -regextype posix-extended \
+mkdir -p /var/log/remote/10.x.x.x/old_debris
+find /var/log/remote/10.x.x.x/ -maxdepth 1 -regextype posix-extended \
   -regex '.*/[0-9]+\.log' -exec mv {} /var/log/remote/ip_address/old_debris/ \;
 ```
 # Problem 2: The VM's own local activity mixing into OLT logs
