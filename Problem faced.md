@@ -4,7 +4,7 @@
 ```
 mkdir -p /var/log/remote/10.80.50.6/old_debris
 find /var/log/remote/10.80.50.6/ -maxdepth 1 -regextype posix-extended \
-  -regex '.*/[0-9]+\.log' -exec mv {} /var/log/remote/10.80.50.6/old_debris/ \;
+  -regex '.*/[0-9]+\.log' -exec mv {} /var/log/remote/ip_address/old_debris/ \;
 ```
 # Problem 2: The VM's own local activity mixing into OLT logs
 - Cause: the first working version of the routing rule used `%HOSTNAME%` with no filter, so the catch-all rule was also capturing the VM's own local system messages (SSH logins to the VM, cron, etc.).
